@@ -43,13 +43,11 @@ public class MainActivity extends AppCompatActivity {
         permissionManager.requestPermission(android.Manifest.permission.CAMERA, new PermissionManager.PermissionCallback() {
             @Override
             public void onPermissionGranted(String permission) {
-                Toast.makeText(getApplicationContext(), "Permission Granted: " + permission, Toast.LENGTH_SHORT ).show();
-                Log.d("PERMISSION", permission + " GRANTED");
+                toastAndLog("Permission Granted: " + permission);
             }
             @Override
             public void onPermissionDenied(String permission) {
-                Toast.makeText(getApplicationContext(), "Permission Denied: " + permission, Toast.LENGTH_SHORT ).show();
-                Log.d("PERMISSION", permission + " DENIED");
+                toastAndLog("Permission Denied: " + permission);
             }
         });
     }
@@ -61,18 +59,16 @@ public class MainActivity extends AppCompatActivity {
         permissionManager.requestPermissions(permissions, new PermissionManager.PermissionsCallback() {
             @Override
             public void onPermissionGranted(String permission) {
-                Toast.makeText(getApplicationContext(), "Permission Granted: " + permission, Toast.LENGTH_SHORT ).show();
-                Log.d("PERMISSION", permission + " GRANTED");
+                toastAndLog("Permission Granted: " + permission);
+
             }
             @Override
             public void onPermissionDenied(String permission) {
-                Toast.makeText(getApplicationContext(), "Permission Denied: " + permission, Toast.LENGTH_SHORT ).show();
-                Log.d("PERMISSION", permission + " DENIED");
+                toastAndLog("Permission Denied: " + permission);
             }
             @Override
             public void onAllPermissionsGranted() {
-                Toast.makeText(getApplicationContext(), "All Permission Granted.", Toast.LENGTH_SHORT ).show();
-                Log.d("PERMISSION", "All permissions granted");
+                toastAndLog("All permissions granted");
             }
         });
     }
@@ -85,5 +81,8 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
+    private void toastAndLog(String msg){
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT ).show();
+        Log.d(PermissionManager.TAG,msg);
+    }
 }

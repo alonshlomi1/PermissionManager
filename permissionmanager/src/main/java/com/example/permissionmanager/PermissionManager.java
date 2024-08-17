@@ -18,8 +18,7 @@ import java.util.Queue;
 public class PermissionManager {
     private static final int PERMISSION_REQUEST_CODE = 1234;
     private static final int MAX_ATTEMPTS = 2;
-    private String TAG = "PERMISSION";
-
+    public static String TAG = "PERMISSION";
     private Context context;
     private Queue<String> permissionQueue = new LinkedList<>();
     private String currentPermission;
