@@ -16,7 +16,7 @@ import com.google.android.material.button.MaterialButton;
 public class MainActivity extends AppCompatActivity {
 
     PermissionManager permissionManager = null;
-    private MaterialButton main_BTN_allPermission;
+    private MaterialButton main_BTN_onePermission, main_BTN_allPermission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,35 +36,48 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initViews() {
-
-        main_BTN_allPermission.setOnClickListener(v -> {
-            String[] permissions = {
-                    android.Manifest.permission.CAMERA,
-                    android.Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.CALL_PHONE
-            };
-
-            permissionManager.requestPermissions(permissions, new PermissionManager.PermissionsCallback() {
-                @Override
-                public void onPermissionGranted(String permission) {
-                    Toast.makeText(getApplicationContext(), "Permission Granted: " + permission, Toast.LENGTH_SHORT ).show();
-                    Log.d("PERMISSION", permission + " GRANTED");
-                }
-                @Override
-                public void onPermissionDenied(String permission) {
-                    Toast.makeText(getApplicationContext(), "Permission Denied: " + permission, Toast.LENGTH_SHORT ).show();
-                    Log.d("PERMISSION", permission + " DENIED");
-                }
-                @Override
-                public void onAllPermissionsGranted() {
-                    Toast.makeText(getApplicationContext(), "All Permission Granted.", Toast.LENGTH_SHORT ).show();
-                    Log.d("PERMISSION", "All permissions granted");
-                }
-            });
+        main_BTN_onePermission.setOnClickListener(v -> getPermission());
+        main_BTN_allPermission.setOnClickListener(v -> getPermissions());
+    }
+    private void getPermission(){
+        permissionManager.requestPermission(android.Manifest.permission.CAMERA, new PermissionManager.PermissionCallback() {
+            @Override
+            public void onPermissionGranted(String permission) {
+                Toast.makeText(getApplicationContext(), "Permission Granted: " + permission, Toast.LENGTH_SHORT ).show();
+                Log.d("PERMISSION", permission + " GRANTED");
+            }
+            @Override
+            public void onPermissionDenied(String permission) {
+                Toast.makeText(getApplicationContext(), "Permission Denied: " + permission, Toast.LENGTH_SHORT ).show();
+                Log.d("PERMISSION", permission + " DENIED");
+            }
         });
     }
-
+    private void getPermissions(){
+        String[] permissions = {
+                android.Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.CALL_PHONE
+        };
+        permissionManager.requestPermissions(permissions, new PermissionManager.PermissionsCallback() {
+            @Override
+            public void onPermissionGranted(String permission) {
+                Toast.makeText(getApplicationContext(), "Permission Granted: " + permission, Toast.LENGTH_SHORT ).show();
+                Log.d("PERMISSION", permission + " GRANTED");
+            }
+            @Override
+            public void onPermissionDenied(String permission) {
+                Toast.makeText(getApplicationContext(), "Permission Denied: " + permission, Toast.LENGTH_SHORT ).show();
+                Log.d("PERMISSION", permission + " DENIED");
+            }
+            @Override
+            public void onAllPermissionsGranted() {
+                Toast.makeText(getApplicationContext(), "All Permission Granted.", Toast.LENGTH_SHORT ).show();
+                Log.d("PERMISSION", "All permissions granted");
+            }
+        });
+    }
     private void findViews() {
+        main_BTN_onePermission = findViewById(R.id.main_BTN_onePermission);
         main_BTN_allPermission = findViewById(R.id.main_BTN_allPermission);
     }
     @Override

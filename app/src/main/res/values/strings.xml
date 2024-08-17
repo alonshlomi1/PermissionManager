@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PermissionManager</string>
+    <string name="all_permission">All Permission</string>
+    <string name="one_permission">One Permission</string>
 </resources>

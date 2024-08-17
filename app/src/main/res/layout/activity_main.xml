@@ -8,10 +8,19 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/main_BTN_allPermission"
+        android:id="@+id/main_BTN_onePermission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="all permission"/>
+        android:text="@string/one_permission"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/main_BTN_allPermission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/main_BTN_onePermission"
+        android:text="@string/all_permission"/>
 
 </RelativeLayout>

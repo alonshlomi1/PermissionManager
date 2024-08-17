@@ -40,17 +40,15 @@ public class PermissionManager {
         this.sharedPreferencesData = new SharedPreferencesData(context);
     }
 
-    public void requestPermission(String[] permissions, PermissionCallback callback) {
+    public void requestPermission(String permission, PermissionCallback callback) {
         this.callback = callback;
         this.allGranted = true;
         this.attempts = 0;
         permissionQueue.clear();
-        for (String permission : permissions) {
-            permissionQueue.offer(permission);
-        }
+        permissionQueue.offer(permission);
         checkAndRequestNextPermission();
     }
-    public void requestPermissions(String[] permissions, PermissionCallback callback) {
+    public void requestPermissions(String[] permissions, PermissionsCallback callback) {
         this.callback = callback;
         this.allGranted = true;
         this.attempts = 0;
