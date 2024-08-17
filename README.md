@@ -27,7 +27,7 @@ allprojects {
 Add the dependency:
 ```
 dependencies {
-    implementation 'com.github.YourGitHubUsername:PermissionManager:Tag'
+    implementation 'com.github.alonshlomi1:PermissionManager:-SNAPSHOT'
 }
 ```
 
