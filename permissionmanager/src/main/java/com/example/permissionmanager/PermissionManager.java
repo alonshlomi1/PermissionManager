@@ -24,20 +24,35 @@ public class PermissionManager {
     private Queue<String> permissionQueue = new LinkedList<>();
     private String currentPermission;
     private int attempts = 0;
+    private boolean allGranted = true;
     private PermissionCallback callback;
-
+    private SharedPreferencesData sharedPreferencesData;
     public interface PermissionCallback {
         void onPermissionGranted(String permission);
         void onPermissionDenied(String permission);
+    }
+    public interface PermissionsCallback extends PermissionCallback {
         void onAllPermissionsGranted();
     }
 
     public PermissionManager(Context context) {
         this.context = context;
+        this.sharedPreferencesData = new SharedPreferencesData(context);
     }
 
+    public void requestPermission(String[] permissions, PermissionCallback callback) {
+        this.callback = callback;
+        this.allGranted = true;
+        this.attempts = 0;
+        permissionQueue.clear();
+        for (String permission : permissions) {
+            permissionQueue.offer(permission);
+        }
+        checkAndRequestNextPermission();
+    }
     public void requestPermissions(String[] permissions, PermissionCallback callback) {
         this.callback = callback;
+        this.allGranted = true;
         this.attempts = 0;
         permissionQueue.clear();
         for (String permission : permissions) {
@@ -49,12 +64,14 @@ public class PermissionManager {
     private void checkAndRequestNextPermission() {
 
         if (permissionQueue.isEmpty()) {
-            callback.onAllPermissionsGranted();
+            if (allGranted && callback instanceof PermissionsCallback) {
+                ((PermissionsCallback) callback).onAllPermissionsGranted();
+            }
             return;
         }
 
         currentPermission = permissionQueue.peek();
-        attempts = 0; // Reset attempts for each new permission
+        attempts = sharedPreferencesData.getInt(currentPermission);
         if (ContextCompat.checkSelfPermission(context, currentPermission) == PackageManager.PERMISSION_GRANTED) {
             permissionQueue.poll();
             callback.onPermissionGranted(currentPermission);
@@ -75,14 +92,16 @@ public class PermissionManager {
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSION_REQUEST_CODE) {
+            String grantedPermission = permissionQueue.poll();
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                String grantedPermission = permissionQueue.poll();
                 callback.onPermissionGranted(grantedPermission);
-                checkAndRequestNextPermission();
+
             } else {
                 attempts++;
-                requestPermission();
+                sharedPreferencesData.putInt(currentPermission, attempts);
+                callback.onPermissionDenied(grantedPermission);
             }
+            checkAndRequestNextPermission();
         }
     }
 

@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/allPermission"
+        android:id="@+id/main_BTN_allPermission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
