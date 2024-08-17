@@ -42,7 +42,7 @@ dependencies {
     permissionManager.requestPermission(String Manifest.permission.CAMERA, new PermissionManager.PermissionCallback() {
         @Override
         public void onPermissionGranted(String permission) {
-            // Permission granted, proceed with camera-related tasks
+            // Handle permission granted
         }
     
         @Override
